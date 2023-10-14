@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Generar enlace de WhatsApp</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000bd;
+        }
+
+        .container {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .form-container {
+            width: 350px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px 0px 0px 5px;
+            box-shadow: -10px 14px 9px 0px black;
+        }
+
+        .input-container {
+            width: 350px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        select #codigoPais {
+            width: 00px; /* Ancho de 200px */
+            height: 50px; /* Altura de 150px */
+            font-size: 8px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin: 5px 0;
+            width: 168px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            font-size: 16px;
+        }
+
+        select {
+            width: 140px;
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            padding-left: 5px;
+            margin-right: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0077FF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+       #descargarPNGButton {
+            margin-top: 26px;
+            margin-bottom: 7px;
+       }
+
+        #enlaceCopiado {
+            display: none;
+        }
+
+        .qr-container {
+            width: 350px;
+            background-color: #f0f0f0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border-radius: 0px 5px 5px 0px;
+            box-shadow: 10px 14px 9px 0px black;
+            opacity: 0; /* Inicialmente, establecer la opacidad en 0 */
+            transition: opacity 2s; /* Agregar transición de opacidad */
+        }
+        #copiarenlace {
+            margin-top: 10px;
+        }
+
+        #tituloQR {
+            font-size: 28px;
+            text-align: center;
+        }
+
+        #qrcode > img {
+            border: white 10px solid;
+            border-radius: 5px;
+            margin: 0px auto;
+        }
+
+        #mensaje{
+            width: 330px;
+        }
+
+        #enlaceWhatsApp{
+            width: 330px;
+        }
+
+        #enlaceCopiado {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1 style="text-align: center; color: rgb(1, 175, 1);">Generador Enlace de WhatsApp</h1>
+            <div class="input-container">
+                <select id="codigoPais">
+                    <option value="1">+1 (Estados Unidos)</option>
+                    <option value="52">+52 (México)</option>
+                    <option value="44">+44 (Reino Unido)</option>
+                    <option value="33">+33 (Francia)</option>
+                    <option value="81">+81 (Japón)</option>
+                    <option value="49">+49 (Alemania)</option>
+                    <option value="7">+7 (Rusia)</option>
+                    <option value="86">+86 (China)</option>
+                    <option value="91">+91 (India)</option>
+                    <option value="61">+61 (Australia)</option>
+                    <option value="1">+1 (Canadá)</option>
+                    <option value="34">+34 (España)</option>
+                    <option value="39">+39 (Italia)</option>
+                    <option value="64">+64 (Nueva Zelanda)</option>
+                    <option value="65">+65 (Singapur)</option>
+                    <option value="27">+27 (Sudáfrica)</option>
+                    <option value="54">+54 (Argentina)</option>
+                    <option value="55">+55 (Brasil)</option>
+                    <option value="56">+56 (Chile)</option>
+                    <option value="57">+57 (Colombia)</option>
+                    <option value="593">+593 (Ecuador)</option>
+                    <option value="502">+502 (Guatemala)</option>
+                    <option value="81">+81 (Japón)</option>
+                    <option value="82">+82 (Corea del Sur)</option>
+                    <option value="965">+965 (Kuwait)</option>
+                    <option value="52">+52 (México)</option>
+                    <option value="31">+31 (Países Bajos)</option>
+                    <option value="47">+47 (Noruega)</option>
+                    <option value="51">+51 (Perú)</option>
+                    <option value="351">+351 (Portugal)</option>
+                </select>                
+                <input type="text" id="telefono" placeholder="Ejemplo: 1234567890">
+            </div>
+            <div class="input-container">
+                <input type="text" id="mensaje" placeholder="Escribe tu mensaje">
+            </div>
+            <button onclick="generarEnlace()">Generar enlace</button>
+            <input type="text" id="enlaceWhatsApp" style="display: none;">
+            <button onclick="copiarEnlace()" style="display: none;" id="copiarenlace">Copiar enlace</button>
+        </div>
+
+        <div class="qr-container" id="qr-container">
+            <h2 id="tituloQR">Código QR</h2>
+            <div id="qrcode"></div>
+            <button id="descargarPNGButton" onclick="descargarQR('png')" style="display: none;">Descargar PNG</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script>
+        let qr = null;
+        let qrContainer = document.getElementById("qr-container");
+
+        function generarEnlace() {
+            const codigoPaisSelect = document.getElementById('codigoPais');
+            const codigoPais = codigoPaisSelect.value;
+            const telefono = document.getElementById('telefono').value;
+            const mensaje = document.getElementById('mensaje').value;
+            const enlaceInput = document.getElementById('enlaceWhatsApp');
+            const copiarBtn = document.querySelector("button[onclick='copiarEnlace()']");
+            const descargarPNGButton = document.getElementById('descargarPNGButton');
+
+            if (codigoPais && telefono && mensaje) {
+                const enlace = `https://api.whatsapp.com/send?phone=${codigoPais}${telefono}&text=${encodeURIComponent(mensaje)}`;
+                enlaceInput.value = enlace;
+                enlaceInput.style.display = 'inline';
+                copiarBtn.style.display = 'inline';
+
+                if (qr) {
+                    qr.makeCode(enlace);
+                } else {
+                    qr = new QRCode(document.getElementById("qrcode"), {
+                        text: enlace,
+                        width: 250,
+                        height: 250,
+                        correctLevel: QRCode.CorrectLevel.M,
+                    });
+                }
+
+                qrContainer.style.display = 'block';
+                descargarPNGButton.style.display = 'inline';
+
+                setTimeout(() => {
+                    qrContainer.style.opacity = 1;
+                }, 0);
+            }
+        }
+
+        function copiarEnlace() {
+            const enlaceInput = document.getElementById('enlaceWhatsApp');
+            enlaceInput.select();
+            document.execCommand('copy');
+            const copiarBtn = document.querySelector("button[onclick='copiarEnlace()']");
+            copiarBtn.innerText = 'Enlace copiado';
+            // Cambiar el color de fondo al botón cuando se hace clic
+            copiarBtn.style.backgroundColor = 'green'; // Cambia 'green' al color que desees
+            const enlaceCopiado = document.getElementById('enlaceCopiado');
+            enlaceCopiado.style.display = 'inline';
+            
+        }
+
+        function descargarQR(formato) {
+            const qrElement = document.getElementById('qrcode');
+            const imgElement = qrElement.querySelector('img');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 250;
+            canvas.height = 250;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(imgElement, 20, 20, 210, 210);
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 20;
+            ctx.strokeRect(0, 0, canvas.width, canvas.height);
+            if (formato === 'png') {
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "codigo-qr.png";
+                    a.click();
+                    URL.revokeObjectURL(url);
+                }, 'image/png', 300);
+            }
+        }
+    </script>
+</body>
+</html>
